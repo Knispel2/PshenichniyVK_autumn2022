@@ -10,14 +10,14 @@ class Game():
             print("|", self.board[0+i*3], "|", self.board[1+i*3], "|", self.board[2+i*3], "|")
             print("-" * 13)
 
-    def take_input(self, player_answer):         
+    def take_input(self, player_answer):
         try:
             player_answer = int(player_answer)
         except ValueError:
             print("Incorrect input!")
             return False
         if player_answer >= 1 and player_answer <= 9:
-            if(str(self.board[player_answer-1]) not in "XO"):
+            if (str(self.board[player_answer-1]) not in "XO"):
                 self.board[player_answer-1] = self.sym[self.counter % 2]
                 self.counter += 1
                 return True
@@ -35,21 +35,25 @@ class Game():
                 return self.board[each[0]]
         return False
 
-    def game_start(self):
+    def game_start(self, auto = False, pos = ''):
         while True:
             self.draw()
-            while not self.take_input(input(f"Enter the position ({self.sym[self.counter % 2]}): ")):
+            while not self.take_input(input(f"Enter the position ({self.sym[self.counter % 2]}): ")
+                                      if not auto else pos):
                 pass
             if self.counter > 3:
                 buf = self.check_win()
                 if buf:
                     print(buf, "wins!")
                     self.draw()
-                    break
+                    return 1
             if self.counter == 9:
                 print("Nobody wins!")
                 self.draw()
+                return 0
+            if auto:
                 break
+
 
 if __name__ == '__main__':
     process = Game()

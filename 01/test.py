@@ -57,3 +57,16 @@ class TestCross(unittest.TestCase):
         for test in range(len(self.base_ans)):
             self.obj.board = self.base_table[test]
             self.assertEqual(self.obj.check_win(), self.base_ans[test])
+
+    def test_allgame(self):
+        self.games = [['5', '1', '6', '4', '7', '3', '9', '8', '2'],
+                      ['5', '6', '3', '8', '7'],]
+        self.result = [0, 1]
+        for i in range(len(self.games)):
+            self.obj.board = list(range(1,10))
+            for x in self.games[i][:-1]:
+                self.obj.game_start(auto=True, pos=x)
+            self.assertEqual(self.obj.game_start(auto=True, pos=self.games[i][-1]), self.result[i])
+
+#test = TestCross()
+#test.test_allgame()

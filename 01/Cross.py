@@ -16,17 +16,15 @@ class Game():
         except ValueError:
             print("Incorrect input!")
             return False
-        if player_answer >= 1 and player_answer <= 9:
-            if (str(self.board[player_answer-1]) not in "XO"):
+        if 1 <= player_answer <= 9:
+            if str(self.board[player_answer-1]) not in "XO":
                 self.board[player_answer-1] = self.sym[self.counter % 2]
                 self.counter += 1
                 return True
-            else:
-                print("This cell is occupied!")
-                return False
-        else:
-            print("Incorrect input!")
+            print("This cell is occupied!")
             return False
+        print("Incorrect input!")
+        return False
 
     def check_win(self):
         win_coord = ((0,1,2), (3,4,5), (6,7,8), (0,3,6), (1,4,7), (2,5,8), (0,4,8), (2,4,6))

@@ -1,10 +1,12 @@
-import Cross
 import unittest
+import sys, os
+import cross
 
 
 class TestCross(unittest.TestCase):
     def setUp(self) -> None:
-        self.obj = Cross.Game()
+        self.obj = cross.Game()
+        sys.stdout = open(os.devnull, 'w')
     def test_input(self):
         self.base_table = [['1', 'X', '3',
                        '4', '5', '6',
@@ -23,8 +25,6 @@ class TestCross(unittest.TestCase):
         for test in range(len(self.base_ans)):
             self.obj.board = self.base_table[test]
             self.assertEqual(self.obj.take_input(self.base_input[test]), self.base_ans[test])
-                      
-    
 
     def test_draw(self):
         self.base_table = [['1', 'X', '3',
@@ -68,5 +68,6 @@ class TestCross(unittest.TestCase):
                 self.obj.game_start(auto=True, pos=x)
             self.assertEqual(self.obj.game_start(auto=True, pos=self.games[i][-1]), self.result[i])
 
-#test = TestCross()
-#test.test_allgame()
+    def tearDown(self) -> None:
+        sys.stdout.close()
+        sys.stdout = sys.__stdout__

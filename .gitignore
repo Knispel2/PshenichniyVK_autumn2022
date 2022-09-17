@@ -1,5 +1,8 @@
 .vs
 01/__pycache__
+02/__pycache__
 01/.vs
+02/.vs
 01/.coverage
+02/.coverage
 .gitignore

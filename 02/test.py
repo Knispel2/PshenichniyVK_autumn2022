@@ -43,6 +43,7 @@ class TestJSON(unittest.TestCase):
             test_choice = set(random.choices(base_names + base_jobs + base_ages, k=num_tests))
             self.obj(base_json, ['names', 'ages', 'job'], list(test_choice), fake_func)
             self.assertEqual(fake_func.call_count, len(test_choice))
+
     def tearDown(self) -> None:
         sys.stdout.close()
         sys.stdout = sys.__stdout__

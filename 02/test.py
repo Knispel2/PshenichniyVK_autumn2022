@@ -11,18 +11,29 @@ class TestJSON(unittest.TestCase):
     def setUp(self) -> None:
         self.obj = json_proj.parse_json
         sys.stdout = open(os.devnull, 'w', encoding='utf8')
+        self.test_json = '''{
+"names":"John|Peter|Vasa|Vera|Katya",
+"ages":"20|28|21|27|26",
+"city":"Moscow|Krasnodar|Tomsk|Moskow",
+"job":"Builder|Office-Worker|Translator|Writer"
+}'''
 
     def test_manual(self):
-        base_json = '''{
-        "names":"John|Peter|Vasa|Vera|Katya",
-        "ages":"20|28|21|27|26",
-        "city":"Moscow|Krasnodar|Tomsk|Moskow",
-        "job":"Builder|Office-Worker|Translator|Writer"
-        }'''
         fake_func = MagicMock(name = 'Test')
         fake_func.return_value = None
-        self.obj(base_json, ['names', 'ages'], ['Vasa', '20'], fake_func)
+        self.obj(self.test_json, ['names', 'ages'], ['Vasa', '20'], fake_func)
         self.assertEqual(fake_func.call_count, 2)
+
+    def test_boundary(self):
+        fake_func = MagicMock(name = 'Test')
+        fake_func.return_value = None
+        self.obj(self.test_json, [], ['Vasa', '20'], fake_func) #empty required_fields
+        self.assertEqual(fake_func.call_count, 0)
+        self.obj(self.test_json, ['names', 'ages'], [], fake_func) #empty keywords
+        self.assertEqual(fake_func.call_count, 0)
+        self.obj(self.test_json, [], [], fake_func) # empty required_fields and keywords
+        self.assertEqual(fake_func.call_count, 0)
+        self.obj(self.test_json, ['names', 'ages'], ['Vasa', '20'], None) #there just should be no exceptions
 
     def test_auto(self):
         self.obj = json_proj.parse_json

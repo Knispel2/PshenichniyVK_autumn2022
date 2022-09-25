@@ -1,16 +1,18 @@
 ﻿from functools import reduce
 import copy
 
-class Custom_list(list):
+
+class Customlist(list):
     def __sub__(self, obj, reverse=False):
         buf_self = copy.copy(self)
         buf_obj = copy.copy(obj)
-        if reverse: buf_self, buf_obj = buf_obj, buf_self
+        if reverse:
+            buf_self, buf_obj = buf_obj, buf_self
         buf_min = min(buf_self, buf_obj, key=len)
         buf_len = max(len(buf_self), len(buf_obj))
-        Custom_list.refill(buf_min, buf_len)
-        result = map(lambda x, y : x-y, buf_self, buf_obj)
-        return Custom_list(result)
+        Customlist.refill(buf_min, buf_len)
+        result = map(lambda x, y: x-y, buf_self, buf_obj)
+        return Customlist(result)
 
     def __rsub__(self, obj):
         return self.__sub__(obj, True)
@@ -20,9 +22,9 @@ class Custom_list(list):
         buf_obj = copy.copy(obj)
         buf_min = min(buf_self, buf_obj, key=len)
         buf_len = max(len(buf_self), len(buf_obj))
-        Custom_list.refill(buf_min, buf_len)
-        result = map(lambda x, y : x+y, buf_self, buf_obj)
-        return Custom_list(result)
+        Customlist.refill(buf_min, buf_len)
+        result = map(lambda x, y: x+y, buf_self, buf_obj)
+        return Customlist(result)
 
     def __radd__(self, obj):
         return self.__add__(obj)
@@ -36,24 +38,29 @@ class Custom_list(list):
         while len(obj) != data_len:
             obj.append(0)
 
-    def __lt__(self, other): #x < y
-        return Custom_list.list_to_int(self) < Custom_list.list_to_int(other)
+    def __lt__(self, other):
+        '''x < y'''
+        return Customlist.list_to_int(self) < Customlist.list_to_int(other)
 
-    def __le__(self, other): # x ≤ y
-        return Custom_list.list_to_int(self) <= Custom_list.list_to_int(other)
+    def __le__(self, other):
+        '''x ≤ y'''
+        return Customlist.list_to_int(self) <= Customlist.list_to_int(other)
 
-    def __eq__(self, other): # x == y 
-        return Custom_list.list_to_int(self) == Custom_list.list_to_int(other)
+    def __eq__(self, other):
+        '''x == y'''
+        return Customlist.list_to_int(self) == Customlist.list_to_int(other)
 
-    def __ne__(self, other): # x != y 
-        return Custom_list.list_to_int(self) != Custom_list.list_to_int(other)
+    def __ne__(self, other):
+        '''x != y'''
+        return Customlist.list_to_int(self) != Customlist.list_to_int(other)
 
-    def __gt__(self, other):# x > y 
-        return Custom_list.list_to_int(self) > Custom_list.list_to_int(other)
+    def __gt__(self, other):
+        '''x > y'''
+        return Customlist.list_to_int(self) > Customlist.list_to_int(other)
 
-    def __ge__(self, other): # x ≥ y
-        return Custom_list.list_to_int(self) >= Custom_list.list_to_int(other)
-    
+    def __ge__(self, other):
+        '''x ≥ y'''
+        return Customlist.list_to_int(self) >= Customlist.list_to_int(other)
+
     def __str__(self):
-        return f"{[x for x in self]}, {Custom_list.list_to_int(self)}"
-
+        return f"{list(self)}, {Customlist.list_to_int(self)}"

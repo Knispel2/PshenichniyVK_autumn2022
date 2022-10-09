@@ -19,7 +19,6 @@ class TestSTR(unittest.TestCase):
 И будит лай собак уснувшие дубравы.'''
         self.file = StringIO(self.test_data)
 
-
     def test_empty(self):
         filter_data = []
         with patch('str_generator.open') as open_mock:
@@ -53,5 +52,6 @@ class TestSTR(unittest.TestCase):
         with patch('str_generator.open') as open_mock:
             open_mock.return_value = self.file
             test_obj = self.generator(self.file, filter_data)
-            self.assertEqual(list(test_obj), ['а Роза упала на лапу Азора',
-                                              'Журча еще бежит за мельницу ручей,'])
+            self.assertEqual(list(test_obj),
+                             ['а Роза упала на лапу Азора',
+                             'Журча еще бежит за мельницу ручей,'])

@@ -4,7 +4,7 @@ import lru
 
 class TestLRU(unittest.TestCase):
     def setUp(self) -> None:
-        self.cache = lru.lru_cache(2)
+        self.cache = lru.MyLRU(2)
 
     def test_one(self):
         self.cache.set("k1", "val1")
@@ -14,7 +14,7 @@ class TestLRU(unittest.TestCase):
         self.assertEqual(self.cache.get("k1"), "val1")
 
     def test_two(self):
-        self.cache = lru.lru_cache(2)
+        self.cache = lru.MyLRU(2)
         self.test_one()
         self.cache.set("k3", "val3")
         self.assertEqual(self.cache.get("k3"), "val3")

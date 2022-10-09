@@ -1,13 +1,13 @@
 from collections import deque
 
-class lru_cache():
+
+class MyLRU:
 
     def __init__(self, limit=42) -> None:
         self.base = deque()
         self.map = {}
         self.limit = limit
-        self.counter = 0
-    
+
     def upper_key(self, key):
         self.base.remove(key)
         self.base.append(key)
@@ -16,8 +16,7 @@ class lru_cache():
         if key in self.base:
             self.upper_key(key)
             return self.map[key]
-        else:
-            return None
+        return None
 
     def set(self, key, value):
         if len(self.base) == self.limit:
@@ -25,4 +24,3 @@ class lru_cache():
             del self.map[buf]
         self.map[key] = value
         self.base.append(key)
-

@@ -8,13 +8,15 @@ from collections import Counter
 import json
 
 
-def processing_url(data, s, addr, top, conn):
+def processing_url(data, s, addr, top, conn, sem):
     while True:
         try:
             if data is None:
                 break
-            with urllib.request.urlopen(data.decode("utf-8")) as resp:
-                html = str(resp.read()).split(' ')
+            sem.acquire()
+            with urllib.request.urlopen('https://' + data) as resp:
+                sem.release()
+                html = str(resp.read().decode('utf-8')).split(' ')
                 words = Counter(html)
                 words = dict(words.most_common(top))
                 words = json.dumps(words)
@@ -23,6 +25,36 @@ def processing_url(data, s, addr, top, conn):
         except Exception as e:
             print(e.text)
 
+
+def server_process(conn, workers_num, workers, s, addr, top_num):
+    sem = threading.Semaphore(value=5)
+    while True:
+        try:
+            buf_data = conn.recv(1024)
+            if not buf_data: break
+            buf_data = buf_data.decode("utf-8").split('https://')
+            for data in buf_data:                
+                if data == '':
+                    continue
+                while threading.active_count() >= workers_num + 1:
+                    pass
+                for i in workers[::-1]:
+                    if i is None:
+                        i = threading.Thread(target=processing_url, args=(data, s, addr, top_num, conn, sem))
+                        i.start()
+                        url_counter += 1
+                        print(f"Processed {url_counter} url's")
+                        break
+                    if not i.is_alive():
+                        i.join()
+                        i = threading.Thread(target=processing_url, args=(data, s, addr, top_num, conn, sem))
+                        i.start()
+                        url_counter += 1
+                        print(f"Processed {url_counter} url's")
+                        break
+        except socket.error:
+            raise exception("Error Occured in server")
+    conn.close()
 
 def server_on(input=[None]*5):    
     url_counter = 0
@@ -41,29 +73,7 @@ def server_on(input=[None]*5):
     print('Server started...')
     s.listen(1)
     conn, addr = s.accept()
-    while True:
-        try:
-            data = conn.recv(1024)
-            if not data: break
-            while threading.active_count() >= workers_num + 1:
-                pass
-            for i in workers[::-1]:
-                if i is None:
-                    i = threading.Thread(target=processing_url, args=(data, s, addr, top_num, conn))
-                    i.start()
-                    break
-                if not i.is_alive():
-                    i.join()
-                    i = threading.Thread(target=processing_url, args=(data, s, addr, top_num, conn))
-                    i.start()
-                    break                
-            url_counter += 1
-            print(f"Processed {url_counter} url's")
-        except socket.error:
-            raise exception("Error Occured in server")
-    conn.close()
+    server_process(conn, workers_num, workers, s, addr, top_num)
 
 if __name__ == '__main__':
     server_on()
-
-server_on()

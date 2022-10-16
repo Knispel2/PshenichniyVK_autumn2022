@@ -21,20 +21,7 @@ def processing_url(url, s):
             continue
 
 
-def client_on():
-    workers_num = 10
-    base = sys.argv
-    if base[1].isdigit():
-        workers_num = int(base[1])
-    else:
-        raise Exception
-    file = open(base[2], 'r')
-    file = [x.strip() for x in file.readlines()]
-    workers = [None]*workers_num
-    host = socket.gethostname()
-    port = 8888                   # The same port as used by the server
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((host, port))
+def client_process(workers_num, file, workers, s):
     print('CLient started...')
     for url in file:
         try:
@@ -55,6 +42,23 @@ def client_on():
     for obj in workers:
         if not obj is None:
             obj.join()
+
+def client_on(base = []):
+    workers_num = 10
+    if base == []:
+        base = sys.argv
+        if base[1].isdigit():
+            workers_num = int(base[1])
+        else:
+            raise Exception
+    file = open(base[2], 'r')
+    file = [x.strip() for x in file.readlines()]
+    workers = [None]*workers_num
+    host = socket.gethostname()
+    port = 8888
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((host, port))
+    client_process(workers_num, file, workers, s)
 
 if __name__ == '__main__':
     client_on()

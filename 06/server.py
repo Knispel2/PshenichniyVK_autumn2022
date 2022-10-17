@@ -22,8 +22,10 @@ def processing_url(data, addr, top, conn, sem):
                 words = json.dumps(words)
                 conn.sendto(bytes('https://' + data + words, encoding="utf-8"), addr)
             break
-        except Exception as e:
-            print(f'Error: {data}')
+        except:
+            print(f'404 error: {data}')
+            conn.sendto(bytes('{}', encoding="utf-8"), addr)
+            break
 
 
 def server_process(conn, workers_num, workers, s, addr, top_num):
@@ -36,9 +38,9 @@ def server_process(conn, workers_num, workers, s, addr, top_num):
                 s.listen(1)
                 conn, addr = s.accept()
                 continue
-            buf_data = buf_data.decode("utf-8").split('https://')
+            buf_data = buf_data.decode("utf-8").split('://')
             for data in buf_data:                
-                if data == '':
+                if data in {'', 'https', '://', 'http'}:
                     continue
                 while threading.active_count() >= workers_num + 1:
                     pass
@@ -58,7 +60,7 @@ def server_process(conn, workers_num, workers, s, addr, top_num):
                         break
         except socket.error:
             raise exception("Error Occured in server")
-    conn.close()
+        conn.close()
 
 def server_on(input=[None]*5):
     workers_num = 10

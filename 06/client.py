@@ -56,7 +56,7 @@ def client_on(base = []):
     workers = [None]*workers_num
     host = socket.gethostname()
     port = 8888
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s = socket.socket()
     s.connect((host, port))
     client_process(workers_num, file, workers, s)
 

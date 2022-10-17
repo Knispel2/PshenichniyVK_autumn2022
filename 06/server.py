@@ -24,7 +24,7 @@ def processing_url(data, addr, top, conn, sem):
             break
         except:
             print(f'404 error: {data}')
-            conn.sendto(bytes('{}', encoding="utf-8"), addr)
+            conn.sendto(bytes(f'404 error: {data}', encoding="utf-8"), addr)
             break
 
 

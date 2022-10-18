@@ -1,3 +1,4 @@
+from __future__ import with_statement
 from logging import exception
 from urllib.request import urlopen
 import threading
@@ -13,9 +14,7 @@ def processing_url(data, addr, top, conn, sem):
         try:
             if data is None:
                 break
-            sem.acquire()
-            with urllib.request.urlopen('https://' + data) as resp:
-                sem.release()
+            with urllib.request.urlopen('https://' + data, timeout=3) as resp:
                 html = str(resp.read().decode('utf-8')).split(' ')
                 words = Counter(html)
                 words = dict(words.most_common(top))
@@ -23,7 +22,6 @@ def processing_url(data, addr, top, conn, sem):
                 conn.sendto(bytes('https://' + data + words, encoding="utf-8"), addr)
             break
         except:
-            print(f'404 error: {data}')
             conn.sendto(bytes(f'404 error: {data}', encoding="utf-8"), addr)
             break
 
@@ -38,9 +36,9 @@ def server_process(conn, workers_num, workers, s, addr, top_num):
                 s.listen(1)
                 conn, addr = s.accept()
                 continue
-            buf_data = buf_data.decode("utf-8").split('://')
+            buf_data = buf_data.decode("utf-8").split('https://')
             for data in buf_data:                
-                if data in {'', 'https', '://', 'http'}:
+                if data in {''}:
                     continue
                 while threading.active_count() >= workers_num + 1:
                     pass
@@ -60,7 +58,6 @@ def server_process(conn, workers_num, workers, s, addr, top_num):
                         break
         except socket.error:
             raise exception("Error Occured in server")
-        conn.close()
 
 def server_on(input=[None]*5):
     workers_num = 10

@@ -9,15 +9,16 @@ import json
 
 
 def processing_url(url, s):
-    s.sendall(bytes(url, encoding="utf-8"))
+    s.send(bytes(url, encoding="utf-8"))
     while True:
         try:
             data = s.recv(1024)
             if data is None:
-                continue
-            print(data)
+                break
+            print(data.decode('utf-8'))
             break
-        except Exception:
+        except Exception as e:
+            print(e)
             continue
 
 
@@ -56,7 +57,7 @@ def client_on(base = []):
     workers = [None]*workers_num
     host = socket.gethostname()
     port = 8888
-    s = socket.socket()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((host, port))
     client_process(workers_num, file, workers, s)
 

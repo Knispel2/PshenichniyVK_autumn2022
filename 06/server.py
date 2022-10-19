@@ -9,7 +9,7 @@ from collections import Counter
 import json
 
 
-def processing_url(data, addr, top, conn, sem):
+def processing_url(data, addr, top, conn):
     while True:
         try:
             if data is None:
@@ -27,7 +27,6 @@ def processing_url(data, addr, top, conn, sem):
 
 
 def server_process(conn, workers_num, workers, s, addr, top_num):
-    sem = threading.Semaphore(value=5)
     url_counter = 0
     while True:
         try:
@@ -44,14 +43,14 @@ def server_process(conn, workers_num, workers, s, addr, top_num):
                     pass
                 for i in workers[::-1]:
                     if i is None:
-                        i = threading.Thread(target=processing_url, args=(data, addr, top_num, conn, sem))
+                        i = threading.Thread(target=processing_url, args=(data, addr, top_num, conn))
                         i.start()
                         url_counter += 1
                         print(f"Processed {url_counter} url's")
                         break
                     if not i.is_alive():
                         i.join()
-                        i = threading.Thread(target=processing_url, args=(data, addr, top_num, conn, sem))
+                        i = threading.Thread(target=processing_url, args=(data, addr, top_num, conn))
                         i.start()
                         url_counter += 1
                         print(f"Processed {url_counter} url's")
@@ -62,7 +61,7 @@ def server_process(conn, workers_num, workers, s, addr, top_num):
 def server_on(input=[None]*5):
     workers_num = 10
     top_num = 7
-    base = sys.argv if input != [None]*5 else input
+    base = sys.argv if input == [None]*5 else input
     if base[1] == '-w':
         workers_num = int(base[2])
     if base[3] == '-k':

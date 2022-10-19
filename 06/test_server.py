@@ -1,25 +1,30 @@
+import socket
 import unittest
+from unittest.mock import MagicMock
+import mock
 from mock import patch
-import client
 import server
-import threading
-import os
 from io import StringIO
 
-test_data = '''CLient started...
-404 error: otvet.mail.ru/question/230876505
-https://otvet.mail.ru/question/230876538{"": 7892, "=": 175, "<span": 130, "<a": 91, "</span>\n": 72, "\u0438": 70, "<div": 68}
-404 error: fubiewbfiwufbuiewb
-404 error: 1321421321'''
+test_data = "b'404 error: https://otvet.mail.ru/question/230876528' test"
 
 class TestServer(unittest.TestCase):
     def setUp(self) -> None:
-        self.client = client.client_on
-
+        pass
+    
     @patch('sys.stdout', new_callable=StringIO)
-    def test_main(self, mock_stdout):        
-        self.server_test = threading.Thread(target=server.server_on, args=(['server.py', '-w', '10', '-k', '7']))
-        self.server_test.start()
-        self.client(['client.py', '10', 'urls_test.txt'])
-        self.assertEqual(mock_stdout.getvalue(), test_data)
-
+    def test_server_on(self, mock_stdout):
+        with patch('socket.socket.send'), patch('socket.socket.bind'):
+            with patch('socket.socket.recv') as resv_mock, patch('socket.socket.accept') as acc_mock:
+                with patch('socket.socket.listen'), patch('socket.socket.listen'), patch('server.server_process'):
+                    acc_mock.return_value = [1, 1]
+                    resv_mock.side_effect = [b'https://otvet.mail.ru/question/230876528'] + [None]*2
+                    server.server_on(['server.py', '-w', '10', '-k', '7'])
+    
+    @patch('sys.stdout', new_callable=StringIO)
+    def test_processing_url(self, mock_stdout):
+        test_obj = MagicMock()
+        test_obj.sendto = print
+        server.processing_url('https://otvet.mail.ru/question/230876528', 'test', 7, test_obj)
+        buf = mock_stdout.getvalue().strip('\n')
+        self.assertEqual(test_data, buf)

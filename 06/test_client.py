@@ -1,19 +1,30 @@
+import socket
 import unittest
 from mock import patch
 import client
-import server
-import threading
-import os
 from io import StringIO
+
 
 
 class TestClient(unittest.TestCase):
     def setUp(self) -> None:
-        self.client = client.client_on
+        pass
 
     @patch('sys.stdout', new_callable=StringIO)
-    def test_main(self, mock_stdout):
-        os.system('python server.py -w 10 -k 7')
-        self.client(['client.py', '10', 'urls.txt'])
-        buf = mock_stdout.getvalue().split('/n')
-        self.assertEqual(len(buf), 101)
+    def test_processing_url(self, mock_stdout):
+        with patch('socket.socket.send') as send_mock:
+            with patch('socket.socket.recv') as resv_mock:
+                send_mock.return_value = b'{}'
+                resv_mock.return_value = b'{}'
+                client.processing_url('', socket.socket())
+                buf = mock_stdout.getvalue().strip('\n')
+                self.assertEqual('{}', buf)
+    
+    @patch('sys.stdout', new_callable=StringIO)
+    def test_client_on(self, mock_stdout):
+        with patch('socket.socket.send') as send_mock:
+            with patch('socket.socket.recv') as resv_mock:
+                with patch('socket.socket.connect'):
+                    send_mock.return_value = b'{}'
+                    resv_mock.return_value = b'{}'
+                    client.client_on(['client.py', '10', 'urls_test.txt'])

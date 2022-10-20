@@ -1,9 +1,8 @@
 import socket
 import unittest
+from io import StringIO
 from mock import patch
 import client
-from io import StringIO
-
 
 
 class TestClient(unittest.TestCase):
@@ -19,7 +18,7 @@ class TestClient(unittest.TestCase):
                 client.processing_url('', socket.socket())
                 buf = mock_stdout.getvalue().strip('\n')
                 self.assertEqual('{}', buf)
-    
+
     @patch('sys.stdout', new_callable=StringIO)
     def test_client_on(self, mock_stdout):
         with patch('socket.socket.send') as send_mock:

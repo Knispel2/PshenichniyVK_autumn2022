@@ -22,7 +22,7 @@ def c_matmult(a, b):
             sumb[indb] = b[i][j]
             indb = indb + 1
     libmatmult.multMatrixSqBad(ctypes.byref(suma), ctypes.byref(sumb), ctypes.byref(sumc), len(a));
-    res = [[0 for i in range(len(a))] for j in range(len(a))]
+    res = [[0 for _ in range(len(a))] for _ in range(len(a))]
     indc = 0
     for i in range(0, len(sumc)):
         res[indc][i % len(a)] = sumc[i]

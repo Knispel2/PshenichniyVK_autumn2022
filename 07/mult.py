@@ -13,23 +13,23 @@ def c_matmult(a_arg, b_arg):
     sumc = array_c()
     inda = 0
     indb = 0
-    for i in enumerate(a_arg):
-        for j in enumerate(a_arg[i]):
+    for i in range(len(a_arg)):
+        for j in range(len(a_arg[i])):
             suma[inda] = a_arg[i][j]
             inda = inda + 1
-    for i in enumerate(b_arg):
-        for j in enumerate(b_arg[i]):
+    for i in range(len(b_arg)):
+        for j in range(len(b_arg[i])):
             sumb[indb] = b_arg[i][j]
             indb = indb + 1
     libmatmult.multMatrixSqBad(ctypes.byref(suma),
                                ctypes.byref(sumb),
                                ctypes.byref(sumc),
                                len(a_arg))
-    res = [[0 for _ in enumerate(a_arg)]
-           for _ in enumerate(a_arg)]
+    res = [[0 for _ in range(len(a_arg))]
+           for _ in range(0, len(a_arg))]
     indc = 0
-    for i in enumerate(sumc):
-        res[indc][i % len(a_arg)] = sumc[i]
+    for i, val in enumerate(sumc):
+        res[indc][i % len(a_arg)] = val
         if i % len(a_arg) == len(a_arg) - 1:
             indc = indc + 1
     return res

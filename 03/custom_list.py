@@ -1,5 +1,4 @@
-﻿from functools import reduce
-import copy
+﻿import copy
 
 
 class Customlist(list):
@@ -30,37 +29,33 @@ class Customlist(list):
         return self.__add__(obj)
 
     @staticmethod
-    def list_to_int(obj):
-        return reduce(lambda x, y: x+y, obj, 0)
-
-    @staticmethod
     def refill(obj, data_len):
         while len(obj) != data_len:
             obj.append(0)
 
     def __lt__(self, other):
         '''x < y'''
-        return Customlist.list_to_int(self) < Customlist.list_to_int(other)
+        return sum(self) < sum(other)
 
     def __le__(self, other):
         '''x ≤ y'''
-        return Customlist.list_to_int(self) <= Customlist.list_to_int(other)
+        return sum(self) <= sum(other)
 
     def __eq__(self, other):
         '''x == y'''
-        return Customlist.list_to_int(self) == Customlist.list_to_int(other)
+        return sum(self) == sum(other)
 
     def __ne__(self, other):
         '''x != y'''
-        return Customlist.list_to_int(self) != Customlist.list_to_int(other)
+        return sum(self) != sum(other)
 
     def __gt__(self, other):
         '''x > y'''
-        return Customlist.list_to_int(self) > Customlist.list_to_int(other)
+        return sum(self) > sum(other)
 
     def __ge__(self, other):
         '''x ≥ y'''
-        return Customlist.list_to_int(self) >= Customlist.list_to_int(other)
+        return sum(self) >= sum(other)
 
     def __str__(self):
-        return f"{list(self)}, {Customlist.list_to_int(self)}"
+        return f"{list(self)}, {sum(self)}"

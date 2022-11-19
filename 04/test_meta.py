@@ -43,10 +43,22 @@ class TestMeta(unittest.TestCase):
         with self.assertRaises(AttributeError):
             print(dynamic_test.dynamic)
 
-    def test_errors(self):
+    def test_error_x(self):
         with self.assertRaises(AttributeError):
             print(self.test_class.x)
+
+    def test_error_val(self):
+        with self.assertRaises(AttributeError):
             print(self.test_class.val)
+
+    def test_error_line(self):
+        with self.assertRaises(AttributeError):
             print(self.test_class.line())
-            print(self.test_class.yyy)
+
+    def test_error_yyy(self):
+        with self.assertRaises(AttributeError):
+            print(self.test_class.line())
+
+    def test_error_sx(self):
+        with self.assertRaises(AttributeError):
             print(self.test_classS.x)

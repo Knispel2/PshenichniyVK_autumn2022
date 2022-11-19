@@ -9,7 +9,7 @@ class CustomMeta(type):
                 self.__dict__[name] = value
         edit_dict = {}
         for (key, value) in dct.items():
-            if key.startswith('__'):
+            if key.startswith('__') and key.endswith('__'):
                 edit_dict[key] = value
             else:
                 edit_dict['custom_'+key] = value

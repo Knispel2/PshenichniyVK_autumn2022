@@ -1,0 +1,44 @@
+2022-11-19 22:56:27,253	complex	DEBUG	Limit 3 now
+2022-11-19 22:56:27,254	complex	ERROR	Key 3 not exist!
+2022-11-19 22:56:27,254	complex	INFO	Set not existing key 3
+2022-11-19 22:56:27,254	complex	INFO	Set existing key 3
+2022-11-19 22:56:27,254	complex	INFO	Set not existing key 4
+2022-11-19 22:56:27,254	complex	INFO	Set not existing key 5
+2022-11-19 22:56:27,254	complex	INFO	Set not existing key 6
+2022-11-19 22:56:27,254	complex	INFO	Set existing key 6, when capacity is reached
+2022-11-19 22:56:27,254	complex	INFO	Key 6 get!
+2022-11-19 22:56:27,254	complex	DEBUG	Upper key 6
+2022-11-19 22:56:35,943	s_complex	ERROR	Key 3 not exist!
+2022-11-19 22:57:28,973	s_complex	ERROR	Key 3 not exist!
+2022-11-19 22:57:42,377	s_complex	DEBUG	Limit 3 now
+2022-11-19 22:57:42,378	s_complex	ERROR	Key 3 not exist!
+2022-11-19 22:57:42,378	s_complex	INFO	Set not existing key 3
+2022-11-19 22:57:42,379	s_complex	INFO	Set existing key 3
+2022-11-19 22:57:42,379	s_complex	INFO	Set not existing key 4
+2022-11-19 22:57:42,379	s_complex	INFO	Set not existing key 5
+2022-11-19 22:57:42,379	s_complex	INFO	Set not existing key 6
+2022-11-19 22:57:42,379	s_complex	INFO	Set existing key 6, when capacity is reached
+2022-11-19 22:57:42,379	s_complex	INFO	Key 6 get!
+2022-11-19 22:57:42,379	s_complex	DEBUG	Upper key 6
+2022-11-19 23:01:10,953	complex	DEBUG	Limit 3 now
+2022-11-19 23:01:10,954	complex	ERROR	Key 3 not exist!
+2022-11-19 23:01:10,954	complex	INFO	Set not existing key 3
+2022-11-19 23:01:10,954	complex	INFO	Set existing key 3
+2022-11-19 23:01:10,954	complex	INFO	Set not existing key 4
+2022-11-19 23:01:10,954	complex	INFO	Set not existing key 5
+2022-11-19 23:01:10,954	complex	INFO	Set not existing key 6
+2022-11-19 23:01:10,954	complex	INFO	Set existing key 6,
+                                    when capacity is reached
+2022-11-19 23:01:10,954	complex	INFO	Key 6 get!
+2022-11-19 23:01:10,954	complex	DEBUG	Upper key 6
+2022-11-19 23:01:13,116	s_complex	DEBUG	Limit 3 now
+2022-11-19 23:01:13,116	s_complex	ERROR	Key 3 not exist!
+2022-11-19 23:01:13,117	s_complex	INFO	Set not existing key 3
+2022-11-19 23:01:13,117	s_complex	INFO	Set existing key 3
+2022-11-19 23:01:13,117	s_complex	INFO	Set not existing key 4
+2022-11-19 23:01:13,117	s_complex	INFO	Set not existing key 5
+2022-11-19 23:01:13,117	s_complex	INFO	Set not existing key 6
+2022-11-19 23:01:13,118	s_complex	INFO	Set existing key 6,
+                                    when capacity is reached
+2022-11-19 23:01:13,118	s_complex	INFO	Key 6 get!
+2022-11-19 23:01:13,118	s_complex	DEBUG	Upper key 6

@@ -2,7 +2,7 @@ import ctypes
 
 
 def c_matmult(a_arg, b_arg):
-    libmatmult = ctypes.CDLL("./07/mult.so")
+    libmatmult = ctypes.CDLL("./mult.so")
     dima = len(a_arg) * len(a_arg)
     dimb = len(b_arg) * len(b_arg)
     array_a = ctypes.c_float * dima

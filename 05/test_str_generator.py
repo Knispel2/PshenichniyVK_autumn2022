@@ -1,5 +1,4 @@
-﻿# coding=windows-1251
-import unittest
+﻿import unittest
 from io import StringIO
 from mock import patch
 import str_generator

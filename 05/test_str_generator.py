@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+п»ї# coding=windows-1251
 import unittest
 from io import StringIO
 from mock import patch
@@ -8,15 +8,15 @@ import str_generator
 class TestSTR(unittest.TestCase):
     def setUp(self) -> None:
         self.generator = str_generator.str_generator
-        self.test_data = '''а Роза упала на лапу Азора
-Октябрь уж наступил — уж роща отряхает
-Последние листы с нагих своих ветвей;
-Дохнул осенний хлад — дорога промерзает.
-Журча еще бежит за мельницу ручей,
-Но пруд уже застыл; сосед мой поспешает
-В отъезжие поля с охотою своей,
-И страждут озими от бешеной забавы,
-И будит лай собак уснувшие дубравы.'''
+        self.test_data = '''Р° Р РѕР·Р° СѓРїР°Р»Р° РЅР° Р»Р°РїСѓ РђР·РѕСЂР°
+РћРєС‚СЏР±СЂСЊ СѓР¶ РЅР°СЃС‚СѓРїРёР» вЂ” СѓР¶ СЂРѕС‰Р° РѕС‚СЂСЏС…Р°РµС‚
+РџРѕСЃР»РµРґРЅРёРµ Р»РёСЃС‚С‹ СЃ РЅР°РіРёС… СЃРІРѕРёС… РІРµС‚РІРµР№;
+Р”РѕС…РЅСѓР» РѕСЃРµРЅРЅРёР№ С…Р»Р°Рґ вЂ” РґРѕСЂРѕРіР° РїСЂРѕРјРµСЂР·Р°РµС‚.
+Р–СѓСЂС‡Р° РµС‰Рµ Р±РµР¶РёС‚ Р·Р° РјРµР»СЊРЅРёС†Сѓ СЂСѓС‡РµР№,
+РќРѕ РїСЂСѓРґ СѓР¶Рµ Р·Р°СЃС‚С‹Р»; СЃРѕСЃРµРґ РјРѕР№ РїРѕСЃРїРµС€Р°РµС‚
+Р’ РѕС‚СЉРµР·Р¶РёРµ РїРѕР»СЏ СЃ РѕС…РѕС‚РѕСЋ СЃРІРѕРµР№,
+Р СЃС‚СЂР°Р¶РґСѓС‚ РѕР·РёРјРё РѕС‚ Р±РµС€РµРЅРѕР№ Р·Р°Р±Р°РІС‹,
+Р Р±СѓРґРёС‚ Р»Р°Р№ СЃРѕР±Р°Рє СѓСЃРЅСѓРІС€РёРµ РґСѓР±СЂР°РІС‹.'''
         self.file = StringIO(self.test_data)
 
     def test_empty(self):
@@ -27,31 +27,31 @@ class TestSTR(unittest.TestCase):
             self.assertEqual(list(test_obj), [])
 
     def test_one(self):
-        filter_data = ['роз']
+        filter_data = ['СЂРѕР·']
         with patch('str_generator.open') as open_mock:
             open_mock.return_value = self.file
             test_obj = self.generator(self.file, filter_data)
             self.assertEqual(list(test_obj), [])
 
     def test_two(self):
-        filter_data = ['роза']
+        filter_data = ['СЂРѕР·Р°']
         with patch('str_generator.open') as open_mock:
             open_mock.return_value = self.file
             test_obj = self.generator(self.file, filter_data)
-            self.assertEqual(list(test_obj), ['а Роза упала на лапу Азора'])
+            self.assertEqual(list(test_obj), ['Р° Р РѕР·Р° СѓРїР°Р»Р° РЅР° Р»Р°РїСѓ РђР·РѕСЂР°'])
 
     def test_three(self):
-        filter_data = ['роЗа']
+        filter_data = ['СЂРѕР—Р°']
         with patch('str_generator.open') as open_mock:
             open_mock.return_value = self.file
             test_obj = self.generator(self.file, filter_data)
-            self.assertEqual(list(test_obj), ['а Роза упала на лапу Азора'])
+            self.assertEqual(list(test_obj), ['Р° Р РѕР·Р° СѓРїР°Р»Р° РЅР° Р»Р°РїСѓ РђР·РѕСЂР°'])
 
     def test_four(self):
-        filter_data = ['роза', 'бежит']
+        filter_data = ['СЂРѕР·Р°', 'Р±РµР¶РёС‚']
         with patch('str_generator.open') as open_mock:
             open_mock.return_value = self.file
             test_obj = self.generator(self.file, filter_data)
             self.assertEqual(list(test_obj),
-                             ['а Роза упала на лапу Азора',
-                             'Журча еще бежит за мельницу ручей,'])
+                             ['Р° Р РѕР·Р° СѓРїР°Р»Р° РЅР° Р»Р°РїСѓ РђР·РѕСЂР°',
+                             'Р–СѓСЂС‡Р° РµС‰Рµ Р±РµР¶РёС‚ Р·Р° РјРµР»СЊРЅРёС†Сѓ СЂСѓС‡РµР№,'])

@@ -1,4 +1,4 @@
-# coding=windows-1251
+# -*- coding: cp1251 -*-
 import unittest
 from io import StringIO
 from mock import patch

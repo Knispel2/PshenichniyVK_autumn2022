@@ -19,8 +19,13 @@ class MyLRU:
         return None
 
     def set(self, key, value):
+        if key in self.base:
+            self.upper_key(key)
+            self.map[key] = value
+            return None
         if len(self.base) == self.limit:
             buf = self.base.popleft()
             del self.map[buf]
         self.map[key] = value
         self.base.append(key)
+        return None

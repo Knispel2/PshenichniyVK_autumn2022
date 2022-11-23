@@ -1,6 +1,6 @@
 ﻿import unittest
+from unittest.mock import patch
 from io import StringIO
-from mock import patch
 import str_generator
 
 
